@@ -108,11 +108,18 @@ body{font-family:'Segoe UI',system-ui,-apple-system,Roboto,Arial,sans-serif;back
 @media(max-width:960px){.r1,.r2{grid-template-columns:1fr}.acts{grid-template-columns:repeat(2,1fr)}.fg{grid-template-columns:1fr 1fr}.tag{display:none}}
 @media(max-width:600px){.three,.page .three{grid-template-columns:1fr 1fr}.sb{flex-direction:column}.acct{margin-left:0;width:100%}.ago{display:none}.job .pill{display:none}.nav a.l{padding:12px 11px}.nav .post{margin:8px 0}}
 @media(max-width:420px){.three,.page .three,.acts{grid-template-columns:1fr}}
+
+.auth-layout{display:grid;grid-template-columns:.85fr 1.15fr;max-width:920px;margin:26px auto;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--card);box-shadow:0 14px 40px rgba(11,53,88,.1)}
+.auth-intro{background:var(--navy);color:#fff;padding:44px 32px;position:relative;overflow:hidden}.auth-intro:after{content:'';position:absolute;width:170px;height:300px;right:-60px;bottom:-100px;border:25px solid #ffffff12;transform:rotate(25deg)}
+.auth-intro small{color:#a9d5ff;text-transform:uppercase;letter-spacing:.15em;font-weight:700}.auth-intro h2{font-size:2rem;line-height:1.18;margin:28px 0 18px}.auth-intro p{color:#c6dbea}
+.auth-content{padding:36px;min-width:0}.auth-content h1{font-size:1.7rem}.auth-tabs{display:flex;gap:24px;border-bottom:1px solid var(--line);margin-bottom:26px}.auth-tabs a{padding:0 0 12px;color:var(--muted);font-weight:700}.auth-tabs a[aria-current]{color:var(--blue);border-bottom:2px solid var(--blue)}
+.auth-form{display:grid;gap:16px;margin:24px 0 18px}.auth-form label{display:grid;gap:6px;font-weight:600;font-size:.88rem}.auth-form input{width:100%;padding:12px;border:1px solid var(--line);border-radius:7px;background:var(--paper);color:var(--ink);font:inherit}.auth-form input:focus-visible,.auth-content a:focus-visible,.auth-content button:focus-visible{outline:3px solid var(--blue);outline-offset:3px}.auth-form button{min-height:46px}.auth-form button:disabled{opacity:.65;cursor:wait}.auth-message{padding:12px 14px;border:1px solid var(--line);border-inline-start:3px solid var(--blue);border-radius:6px;background:var(--soft);overflow-wrap:anywhere}.auth-message:empty{display:none}.auth-message[data-error="true"]{border-inline-start-color:#c74435}.auth-detail{overflow-wrap:anywhere}.auth-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.auth-global{max-width:920px;margin:18px auto}
+@media(max-width:650px){.auth-layout{grid-template-columns:1fr;margin:12px auto}.auth-intro{padding:24px}.auth-intro h2{font-size:1.5rem;margin:12px 0}.auth-content{padding:24px}}
 </style></head><body>
 <div class="top"><div class="wrap">
 <a class="logo" href="#/"><svg width="52" height="46" viewBox="0 0 52 46"><polygon points="2,44 16,10 22,10 12,44" fill="#2a6fc2"/><polygon points="14,44 26,4 40,4 38,44" fill="#0b3558"/><polygon points="30,44 36,16 50,44" fill="#3d8ee6"/></svg><span><b>ALUMINIUM <i>HUB</i></b><small>SAUDI ARABIA</small></span></a>
 <div class="tag"><strong>Jobs • Companies • Classifieds • Videos</strong>The leading platform for the aluminium industry in Saudi Arabia</div>
-<div class="acct"><a href="#/login">👤 Login</a><a href="#/login">➕ Register</a><div class="lang"><button class="on" data-l="ltr">EN</button><button data-l="rtl">عربي</button></div></div>
+<div class="acct"><span id="account-links"><a href="#/login">Login</a> &nbsp; <a href="#/register">Register</a></span><div class="lang"><button class="on" data-l="ltr">EN</button><button data-l="rtl">عربي</button></div></div>
 </div></div>
 <div class="nav"><div class="wrap" id="nav">
 <a class="l" href="#/" data-r="">🏠 Home</a><a class="l" href="#/jobs" data-r="jobs">Jobs</a><a class="l" href="#/companies" data-r="companies">Companies</a><a class="l" href="#/classifieds" data-r="classifieds">Classifieds</a><a class="l" href="#/videos" data-r="videos">Videos</a><a class="l" href="#/articles" data-r="articles">Articles</a><a class="l" href="#/about" data-r="about">About Us</a><a class="l" href="#/contact" data-r="contact">Contact</a>
@@ -156,7 +163,7 @@ Object.keys(T).forEach(function(k){if(c&&c!==k)return;var f={jobs:jobH,companies
 return '<div class="wrap page"><h1>Search results</h1><p class="m">'+n+' result'+(n==1?'':'s')+'</p>'+(h||'<p>No listings found yet. Please check back soon.</p>')+'</div>'}
 function stat(t,b){return '<div class="wrap page"><div class="box"><h1>'+t+'</h1><p class="m">'+b+'</p></div></div>'}
 function route(){var p=decodeURIComponent(location.hash.replace(/^#\/?/,"")).split("/"),a=p[0],h;
-if(!a)h=home();else if(a==="search")h=srch(p);else if(T[a])h=p[1]!==undefined?detail(a,+p[1]):listP(a);
+if(!a)h=home();else if(["login","register","account","forgot-password","reset-password"].includes(a))h=window.authUI?window.authUI(a):stat("Your account","Loading account services…");else if(a==="search")h=srch(p);else if(T[a])h=p[1]!==undefined?detail(a,+p[1]):listP(a);
 else{var S={privacy:["Privacy Policy","Placeholder page. Write your own privacy policy before launch."],terms:["Terms &amp; Conditions","Placeholder page. Write your own terms before launch."],contact:["Contact","Email: info@example.com (replace with your real address)."],about:["About Us","Aluminium Hub Saudi Arabia is a portal for the aluminium industry. Replace this text."],articles:["Articles","No articles published yet."],faq:["FAQ","Placeholder page."],login:["Login / Register","Accounts are not set up yet. Public registration needs a plugin or custom development."]};var s=S[a]||S.about;h=stat(s[0],s[1])}
 document.getElementById("app").innerHTML=h;
 document.querySelectorAll("#nav a.l").forEach(function(l){l.classList.toggle("on",l.dataset.r===(T[a]||S0(a)?a:a))});
@@ -166,4 +173,4 @@ function S0(a){return a==="articles"||a==="about"||a==="contact"}
 document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){document.documentElement.dir=b.dataset.l;document.querySelectorAll(".lang button").forEach(function(x){x.classList.toggle("on",x===b)})}});
 document.getElementById("nl").onsubmit=function(ev){ev.preventDefault();document.getElementById("nlm").textContent="Newsletter sign-up isn't connected yet."};
 window.addEventListener("hashchange",route);route();
-</script></body></html>
+</script><script type="module" src="/assets/auth.js"></script></body></html>

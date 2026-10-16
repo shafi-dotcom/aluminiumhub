@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@netlify/identity": "^2.0.0"
+  }
+}
